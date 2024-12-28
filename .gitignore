@@ -30,3 +30,14 @@
 *.exe
 *.out
 *.app
+
+# Folders
+bin/
+Dependencies/
+
+# Visual Studio-specific files
+.vs/
+OpenGL.sln
+OpenGL.vcxproj
+OpenGL.vcxproj.filters
+OpenGL.vcxproj.user
