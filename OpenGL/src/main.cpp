@@ -53,7 +53,20 @@ int main(void)
     // - The third argument, `positions`, is a pointer to the data to be copied into the buffer.
     // - The last argument, `GL_STATIC_DRAW`, tells OpenGL that the data will mostly be used for drawing and won't change frequently.
 
+    glEnableVertexAttribArray(0);
+    // Enable the vertex attribute at index `0`.
+    // - This prepares the attribute for use in the vertex shader.
+    // - The index `0` corresponds to a layout location in the shader, such as `layout(location = 0)`.
 
+
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+    // Define how the data in the buffer is interpreted for the vertex attribute at index `0`.
+    // - The first argument (`0`) specifies the attribute index.
+    // - The second argument (`2`) is the number of components per vertex (e.g., `x` and `y` for 2D positions).
+    // - The third argument (`GL_FLOAT`) specifies the data type of each component (here `float`).
+    // - The fourth argument (`GL_FALSE`) indicates whether the data should be normalized (no normalization in this case).
+    // - The fifth argument (`sizeof(float) * 2`) is the stride, or the total size (in bytes) of one vertex's data.
+    // - The sixth argument (`0`) is the offset in the buffer where the data for this attribute starts (no offset here).
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
