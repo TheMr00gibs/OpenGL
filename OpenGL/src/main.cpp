@@ -6,7 +6,8 @@
 #include <sstream>
 #include "Renderer.h"
 #include "VertexBuffer.h"
-#include "IndexBuffer.h"
+#include "IndexBuffer.h" 
+#include "VertexArray.h"
 
 struct ShaderProgramSource
 {
@@ -99,9 +100,9 @@ int main(void)
         return -1;
 
     // Set openGL CORE_PROFILE
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // ??
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); // ??
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // ?? Core profile ??
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     /* Create a windowed mode window and its OpenGL context */
     window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
@@ -136,13 +137,14 @@ int main(void)
     };
 
     unsigned int vao;
-    GLCall(glGenVertexArrays(1, &vao)); // ???
-    GLCall(glBindVertexArray(vao)); // ??
+    GLCall(glGenVertexArrays(1, &vao));
+    GLCall(glBindVertexArray(vao));
 
+    VertexArray va;
     VertexBuffer vb(positions, 4 * 2 * sizeof(float));
-
-    GLCall(glEnableVertexAttribArray(0));
-    GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
+    VertexBufferLayout layout;
+    layout.Push<float>(2);
+    va.AddBuffer(vb, layout);
 
     IndexBuffer ib(indices, 6);
     
@@ -176,10 +178,7 @@ int main(void)
         GLCall(glUseProgram(shader));
         GLCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f));
 
-        // VAO bind
-        GLCall(glBindVertexArray(vao));
-
-        // IBO bind
+        va.Bind();
         ib.Bind();
 
         // DRAW CALL
